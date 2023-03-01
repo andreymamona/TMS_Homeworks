@@ -6,6 +6,7 @@ def task1(x: [float, int], y: [float, int]) -> [float, int]:
     Даны действительные числа x и y.
     Вернуть (|x| − |y|) / (1+ |xy|)
     """
+    return (abs(x) - abs(y)) / (1 + abs(x * y))
 
 
 def task2(a: [float, int]) -> tuple[[float, int], [float, int]]:
@@ -13,6 +14,9 @@ def task2(a: [float, int]) -> tuple[[float, int], [float, int]]:
     Дана длина ребра куба.
     Вернуть кортеж с объемом куба и площадью его боковой поверхности.
     """
+    if a < 0:
+        raise TaskException
+    return a ** 3, a ** 2
 
 
 def task3(a: [float, int], b: [float, int]) -> [float, int]:
@@ -20,6 +24,9 @@ def task3(a: [float, int], b: [float, int]) -> [float, int]:
     Даны два катета прямоугольного треугольника.
     Вернуть длину гипотенузы.
     """
+    if a < 0 or b < 0:
+        raise TaskException
+    return (a ** 2 + b ** 2) ** 0.5
 
 
 def task4(string: str) -> str:
@@ -27,6 +34,7 @@ def task4(string: str) -> str:
     На вход подаётся строка.
     Вернуть строку равную предпоследнему символу введенной строки.
     """
+    return string[-2]
 
 
 def task5(string: str) -> str:
@@ -34,6 +42,7 @@ def task5(string: str) -> str:
     На вход подаётся строка.
     Вернуть строку равную первым пяти символам введенной строки.
     """
+    return string[0:5]
 
 
 def task6(string: str) -> str:
@@ -41,6 +50,7 @@ def task6(string: str) -> str:
     На вход подаётся строка.
     Вернуть строку равную введенной строку без последних двух символов.
     """
+    return string[0:-2]
 
 
 def task7(string: str) -> str:
@@ -48,6 +58,7 @@ def task7(string: str) -> str:
     На вход подаётся строка.
     Вернуть строку равную всем элементам введенной строки с четными индексами.
     """
+    return string[0::2]
 
 
 def task8(string: str) -> str:
@@ -55,6 +66,7 @@ def task8(string: str) -> str:
     На вход подаётся строка.
     Вернуть строку равную третьему символу введенной строки.
     """
+    return string[2]
 
 
 def task9(string: str) -> str:
@@ -63,6 +75,7 @@ def task9(string: str) -> str:
     с 3 восклицательными знаками в конце ('!!!') и вывести на экран.
     Если меньше 10, то вывести на экран второй символ строки
     """
+    return string + "!!!" if len(string) > 10 else string[1]
 
 
 def task10(string: str) -> tuple[str, [None, str]]:
@@ -73,6 +86,8 @@ def task10(string: str) -> tuple[str, [None, str]]:
     (подсказка: для получения центральной буквы, найдите длину строки и разделите ее пополам.
     Для создания результирующий строки используйте срез)
     """
+    c = string[len(string) // 2]
+    return (c, None) if c != string[0] else (c, string[1:-1])
 
 
 def task11(string: str) -> bool:
@@ -80,18 +95,21 @@ def task11(string: str) -> bool:
     Напишите функцию которая проверяет является ли строка палиндромом.
     Палиндром — это слово или фраза, которые одинаково читаются слева направо и справа налево.
     """
+    return True if string == string[::-1] else False
 
 
 def task12(string: str, symbol: str) -> int:
     """
     Напишите функцию которая возвращает сколько раз символ встречается в строке
     """
+    return string.count(symbol)
 
 
 def task13(number: int) -> bool:
     """
     Дано число. Если это число делится на 1000 без остатка, то верните True иначе False
     """
+    return number % 1000 == 0
 
 
 def task14(guests_count: int) -> str:
@@ -100,6 +118,15 @@ def task14(guests_count: int) -> str:
     Если их будет больше 50 - закажут ресторан, если от 20 до 50 - кафе, а если меньше 20 - отпразднуют дома.
     Вернуть "ресторан", "кафе", "дом" в зависимости от количества гостей.
     """
+    if guests_count < 0:
+        raise TaskException
+    if guests_count < 20:
+        place = "дом"
+    elif guests_count <= 50:
+        place = "кафе"
+    else:
+        place = "ресторан"
+    return place
 
 
 def task15(number: int) -> tuple[int, int]:
@@ -148,6 +175,21 @@ def micro_calc(a: [float, int], b: [float, int], sign: str) -> [float, int, str]
     Необходимо вернуть результат арифметической операции
     В случае ошибки вычислений или неизвестного знака вернуть строку "error"
     """
+    if sign == '+':
+        return a + b
+    elif sign == '-':
+        return a - b
+    elif sign == ':':
+        if b == 0:
+            raise TaskException
+        return a / b
+    elif sign == '*':
+        return a * b
+    elif sign == '^':
+        return a ** b
+    else:
+        raise TaskException
+
 
 
 def big_letters(phrase: str) -> str:
@@ -182,6 +224,57 @@ def big_letters(phrase: str) -> str:
       T   U   U  V V  W W W X   X   Y   Z
       T    UUU    V    W W  X   X   Y   ZZZZZ
     """
+    letters = {'a': [' AAA ', 'A   A', 'A   A', 'AAAAA', 'A   A', 'A   A', 'A   A'],
+               'b': ['BBBB ', 'B   B', 'B   B', 'BBBB ', 'B   B', 'B   B', 'BBBB '],
+               'c': [' CCC ', 'C   C', 'C    ', 'C    ', 'C    ', 'C   C', ' CCC '],
+               'd': ['DDDD ', 'D   D', 'D   D', 'D   D', 'D   D', 'D   D', 'DDDD '],
+               'e': ['EEEEE', 'E    ', 'E    ', 'EEEEE', 'E    ', 'E    ', 'EEEEE'],
+               'f': ['FFFFF', 'F    ', 'F    ', 'FFFFF', 'F    ', 'F    ', 'F    '],
+               'g': [' GGG ', 'G   G', 'G    ', 'G GGG', 'G   G', 'G   G', ' GGG '],
+               'h': ['H   H', 'H   H', 'H   H', 'HHHHH', 'H   H', 'H   H', 'H   H'],
+               'i': ['IIIII', '  I  ', '  I  ', '  I  ', '  I  ', '  I  ', 'IIIII'],
+               'j': ['JJJJJ', '    J', '    J', '    J', '    J', '    J', 'JJJJ '],
+               'k': ['K   K', 'K  K ', 'K K  ', 'KK   ', 'K K  ', 'K  K ', 'K   K'],
+               'l': ['L    ', 'L    ', 'L    ', 'L    ', 'L    ', 'L    ', 'LLLLL'],
+               'm': ['M   M', 'MM MM', 'M M M', 'M   M', 'M   M', 'M   M', 'M   M'],
+               'n': ['N   N', 'NN  N', 'N   N', 'N N N', 'N   N', 'N  NN', 'N   N'],
+               'o': [' OOO ', 'O   O', 'O   O', 'O   O', 'O   O', 'O   O', ' OOO '],
+               'p': ['PPPP ', 'P   P', 'P   P', 'PPPP ', 'P    ', 'P    ', 'P    '],
+               'q': [' QQQ ', 'Q   Q', 'Q   Q', 'Q   Q', 'Q Q Q', 'Q  QQ', ' QQQQ'],
+               'r': ['RRRR ', 'R   R', 'R   R', 'RRRR ', 'R R  ', 'R  R ', 'R   R'],
+               's': [' SSS ', 'S   S', 'S    ', ' SSS ', '    S', 'S   S', ' SSS '],
+               't': ['TTTTT', '  T  ', '  T  ', '  T  ', '  T  ', '  T  ', '  T  '],
+               'u': ['U   U', 'U   U', 'U   U', 'U   U', 'U   U', 'U   U', ' UUU '],
+               'v': ['V   V', 'V   V', 'V   V', 'V   V', 'V   V', ' V V ', '  V  '],
+               'w': ['W   W', 'W   W', 'W   W', 'W W W', 'W W W', 'W W W', ' W W '],
+               'x': ['X   X', 'X   X', ' X X ', '  X  ', ' X X ', 'X   X', 'X   X'],
+               'y': ['Y   Y', 'Y   Y', ' Y Y ', '  Y  ', '  Y  ', '  Y  ', '  Y  '],
+               'z': ['ZZZZZ', '    Z', '   Z ', '  Z  ', ' Z   ', 'Z    ', 'ZZZZZ'],
+               ' ': ['     ', '     ', '     ', '     ', '     ', '     ', '     ']}
+    phrase = phrase.casefold()
+    try:
+        while phrase[0] == ' ':
+            phrase = phrase.removeprefix(' ')
+    except:
+        return ''
+    while phrase[-1] == ' ':
+        phrase = phrase.removesuffix(' ')
+    for el in phrase:
+        if el.isalpha() is False and el != ' ':
+            phrase = phrase.replace(el, '')
+    bl = []
+    for i in range(7):
+        bl.append('')
+        for ltr in phrase:
+            bl[i] += letters[ltr][i] + ' '
+        while bl[i][-1] == ' ':
+            bl[i] = bl[i].removesuffix(' ')
+        if i != 6:
+            bl[i] = bl[i] + '\n'
+    res = str()
+    for el in bl:
+        res += el
+    return res
 
 
 def perfect_square(square: str) -> bool:
@@ -192,6 +285,21 @@ def perfect_square(square: str) -> bool:
      - Правильные квадраты могут содержать только '.' и необязательно '\n' (перевод строки).
      - Идеальные квадраты должны иметь одинаковую ширину и высоту.
     """
+    sq_list = [[]]
+    i = 0
+    for el in square:
+        if el == '.':
+            sq_list[i] += el
+        else:
+            sq_list.append([])
+            i += 1
+    if len(sq_list) == len(sq_list[0]):
+        for i in range(len(sq_list) - 1):
+            if sq_list[i] != sq_list[i + 1]:
+                return False
+        return True
+    else:
+        return False
 
 
 def task_with_square_brackets(string_input: str) -> str:
