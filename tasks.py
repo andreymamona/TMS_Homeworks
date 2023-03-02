@@ -133,6 +133,13 @@ def task15(number: int) -> tuple[int, int]:
     """
     Дано число. Найти сумму и произведение его цифр.
     """
+    a = list(str(number))
+    s = 0
+    p = 1
+    for i in a:
+        s += int(i)
+        p *= int(i)
+    return s, p
 
 
 def task16(start: int, end: int) -> list[int]:
@@ -140,6 +147,22 @@ def task16(start: int, end: int) -> list[int]:
     Два натуральных числа называют дружественными, если каждое из них равно сумме всех делителей другого,
     кроме самого этого числа. Реализовать функцию для поиска всех пар дружественных чисел в заданном диапазоне
     """
+    def summa(m: int):
+        summ = 1
+        for i in range(2, int(m / 2) + 1):
+            if m % i == 0:
+                summ += i
+        return summ
+
+    friend = []
+    for i in range(start, end + 1):
+        a = summa(i)
+        b = summa(a)
+        if b == i != a and a < end:
+            if sorted([i, a]) not in friend:
+                friend.append(sorted([i, a]))
+                print(sorted([i, a]))
+    return friend
 
 
 def task17(n: int) -> float:
@@ -147,6 +170,10 @@ def task17(n: int) -> float:
     Для заданного числа N составьте программу вычисления суммы
     S=1+1/2+1/3+1/4+...+1/N, где N – натуральное число
     """
+    s = 0.0
+    for i in range(1, n + 1):
+        s += 1/i
+    return s
 
 
 def task18(number: [int, float], func_number: int) -> float:
@@ -189,7 +216,6 @@ def micro_calc(a: [float, int], b: [float, int], sign: str) -> [float, int, str]
         return a ** b
     else:
         raise TaskException
-
 
 
 def big_letters(phrase: str) -> str:
@@ -311,3 +337,4 @@ def task_with_square_brackets(string_input: str) -> str:
      - вложенность может быть любая
      - строка на входе в функцию всегда валидна
     """
+
