@@ -149,19 +149,16 @@ def task16(start: int, end: int) -> list[int]:
     """
     def summa(m: int):
         summ = 1
-        for i in range(2, int(m / 2) + 1):
+        for i in range(2, int(m / 2)):
             if m % i == 0:
                 summ += i
         return summ
-
     friend = []
-    for i in range(start, end + 1):
-        a = summa(i)
+    for j in range(start, end + 1):
+        a = summa(j)
         b = summa(a)
-        if b == i != a and a < end:
-            if sorted([i, a]) not in friend:
-                friend.append(sorted([i, a]))
-                print(sorted([i, a]))
+        if b == j != a and a < end:
+            friend.append(j)
     return friend
 
 
