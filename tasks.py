@@ -275,13 +275,10 @@ def big_letters(phrase: str) -> str:
                'z': ['ZZZZZ', '    Z', '   Z ', '  Z  ', ' Z   ', 'Z    ', 'ZZZZZ'],
                ' ': ['     ', '     ', '     ', '     ', '     ', '     ', '     ']}
     phrase = phrase.casefold()
-    try:
-        while phrase[0] == ' ':
-            phrase = phrase.removeprefix(' ')
-    except:
+    phrase = phrase.rstrip()
+    phrase = phrase.strip()
+    if phrase == '':
         return ''
-    while phrase[-1] == ' ':
-        phrase = phrase.removesuffix(' ')
     for el in phrase:
         if el.isalpha() is False and el != ' ':
             phrase = phrase.replace(el, '')
